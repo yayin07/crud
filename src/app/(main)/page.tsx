@@ -45,16 +45,23 @@ async function fetchBooks() {
     if (!response.ok) {
       throw new Error("Failed to fetch books.");
     }
-    2;
+
     const data = await response.json();
-    books = data.works || [];
+    books = data.works.map((book: any) => ({
+      key: book.key,
+      title: book.title,
+      authors: book.author_name || [],
+      cover_edition_key: book.cover_edition_key,
+      coverUrl: book.cover_edition_key
+        ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`
+        : "/default-cover.jpg",
+    }));
   } catch (err) {
     error = (err as Error).message;
   }
 
   return { books, error };
 }
-
 export default async function Home() {
   const { books, error } = await fetchBooks();
 

@@ -5,6 +5,7 @@ import { Book, ChevronDown, ChevronUp, Search } from "lucide-react";
 import { Input } from "@/components/ui/input"; // Assuming you have these UI components
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Author {
   name: string;
@@ -91,7 +92,7 @@ const BookGrid: React.FC<BookGridProps> = ({ books: initialBooks }) => {
         </div>
 
         {books && books.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  gap-6">
             {books.map((book) => (
               <Link
                 href={`/books/${generateSlug(book.title)}`}
@@ -99,8 +100,13 @@ const BookGrid: React.FC<BookGridProps> = ({ books: initialBooks }) => {
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="aspect-w-2 aspect-h-3 w-full">
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                    <Book size={48} className="text-gray-400" />
+                  <div className="w-full h-[20em] bg-gray-200 flex items-center justify-center relative overflow-hidden">
+                    <Image
+                      fill
+                      src={book.coverUrl || "/default-cover.jpg"}
+                      alt={`${book.title} cover`}
+                      className="object-cover w-full h-full"
+                    />
                   </div>
                 </div>
 
