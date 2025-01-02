@@ -25,7 +25,6 @@ const BookPage: React.FC = () => {
 
     const fetchBook = async () => {
       try {
-        // Use the slug in the API request (modify this URL to your API)
         const response = await fetch(
           `https://openlibrary.org/search.json?title=${slug}`
         );
