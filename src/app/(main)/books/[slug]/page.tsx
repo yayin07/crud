@@ -14,13 +14,11 @@ interface Book {
 }
 
 const BookPage: React.FC = () => {
-  // State to hold the fetched book data
   const [book, setBook] = useState<Book | null>(null);
 
   const { slug } = useParams();
 
   useEffect(() => {
-    // Ensure there's a slug before fetching data
     if (!slug) return;
 
     const fetchBook = async () => {
@@ -30,7 +28,6 @@ const BookPage: React.FC = () => {
         );
         const data = await response.json();
 
-        // Assuming the first result is the correct book
         if (data.docs && data.docs.length > 0) {
           const bookData = data.docs[0];
 
@@ -41,10 +38,9 @@ const BookPage: React.FC = () => {
               : [],
             coverUrl: bookData.cover_i
               ? `https://covers.openlibrary.org/b/id/${bookData.cover_i}-L.jpg`
-              : "/default-cover.jpg", // Default cover if no image
+              : "/default-cover.jpg",
           });
         } else {
-          // Handle case where no book was found
           setBook(null);
         }
       } catch (error) {
@@ -58,10 +54,13 @@ const BookPage: React.FC = () => {
   if (!book) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="flex flex-col  md:flex-row gap-4 justify-center p-4">
+      <div>
+        <img src={book.coverUrl} alt={`${book.title} cover`} />
+      </div>
+
       <h1>{book.title}</h1>
       <p>By: {book.authors.map((author) => author.name).join(", ")}</p>
-      <img src={book.coverUrl} alt={`${book.title} cover`} />
     </div>
   );
 };
